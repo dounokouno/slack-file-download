@@ -4,7 +4,7 @@ A script that download files uploaded to Slack.
 
 ## Requirements
 
-- Ruby 2.6+
+- Ruby 2.7+
 
 ## Installation
 
