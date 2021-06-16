@@ -6,7 +6,7 @@ require 'open-uri'
 Dotenv.load
 ACCESS_TOKEN = ENV['ACCESS_TOKEN']
 DOWNLOAD_DIR = (ENV['DOWNLOAD_DIR'] || 'download').freeze
-WAIT_SECONDS_ON_ERROR = ENV['WAIT_SECONDS_ON_ERROR'] || 10
+WAIT_SECONDS_ON_ERROR = ENV['WAIT_SECONDS_ON_ERROR'].to_i || 10
 AUTHORIZATION = { 'Authorization' => "Bearer #{ACCESS_TOKEN}" }.freeze
 COUNT = 1000
 client = Slack::Web::Client.new token: ACCESS_TOKEN
