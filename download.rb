@@ -47,7 +47,19 @@ loop do
       puts "Download #{download_filename}"
 
       begin
-        File.open("#{DOWNLOAD_DIR}/#{download_filename.gsub('/', '_')}", 'wb') do |output|
+        # Characters that cannot be used in files
+        # \ / : * ? " < > | 
+        File.open("#{DOWNLOAD_DIR}/#{download_filename
+        .gsub("\\", "_")
+        .gsub("/", "_")
+        .gsub(":", "_")
+        .gsub("\*", "_")
+        .gsub("\?", "_")
+        .gsub("\"", "_")
+        .gsub("<", "_")
+        .gsub(">", "_")
+        .gsub("|", "_")
+        }", 'wb') do |output|
           output.write(URI.parse(file.url_private_download).open(AUTHORIZATION).read)
         end
       rescue StandardError => e
