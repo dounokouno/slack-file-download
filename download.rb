@@ -6,6 +6,7 @@ require 'open-uri'
 Dotenv.load
 ACCESS_TOKEN = ENV['ACCESS_TOKEN']
 DOWNLOAD_DIR = (ENV['DOWNLOAD_DIR'] || 'download').freeze
+CANNOT_USED_CHARS_OF_FILE_NAMES = %w[\\ / : * ? " < > |]
 WAIT_SECONDS_ON_ERROR = ENV['WAIT_SECONDS_ON_ERROR'].to_i || 10
 AUTHORIZATION = { 'Authorization' => "Bearer #{ACCESS_TOKEN}" }.freeze
 COUNT = 1000
@@ -47,19 +48,8 @@ loop do
       puts "Download #{download_filename}"
 
       begin
-        # Characters that cannot be used in files
-        # \ / : * ? " < > | 
-        File.open("#{DOWNLOAD_DIR}/#{download_filename
-        .gsub("\\", "_")
-        .gsub("/", "_")
-        .gsub(":", "_")
-        .gsub("\*", "_")
-        .gsub("\?", "_")
-        .gsub("\"", "_")
-        .gsub("<", "_")
-        .gsub(">", "_")
-        .gsub("|", "_")
-        }", 'wb') do |output|
+        filename = download_filename.gsub(Regexp.union(CANNOT_USED_CHARS_OF_FILE_NAMES), '_')
+        File.open("#{DOWNLOAD_DIR}/#{filename}", 'wb') do |output|
           output.write(URI.parse(file.url_private_download).open(AUTHORIZATION).read)
         end
       rescue StandardError => e
