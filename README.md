@@ -11,7 +11,9 @@ A script that download files uploaded to Slack.
 ### e.g.
 
 ```
-$ bundle install --path vendor/bundle
+$ bundle config set path vendor/bundle --local
+$ bundle config set parallel 4 --local
+$ bundle install
 ```
 
 ## Usage
